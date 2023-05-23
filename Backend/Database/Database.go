@@ -2,9 +2,12 @@ package Database
 
 import (
 	data "Backend/Database/data"
+	//bookingclient "Backend/Clients/Booking"
 	bookingModel "Backend/Model/Booking"
+	//hotelClient "Backend/Clients/Hotel"
 	hotelModel "Backend/Model/Hotel"
 	userModel "Backend/Model/User"
+	//UserClient "Backend/Clients/User"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	log "github.com/sirupsen/logrus"
@@ -35,13 +38,13 @@ func init() {
 		log.Info("Connection Established")
 	}
 
-	/*	// We need to add all CLients that we build
-		userClient.Db = db
-		productClient.Db = db
-		addressClient.Db = db
-		orderClient.Db = db
-		searchClient.Db = db
-		homeClient.Db = db*/
+	// We need to add all CLients that we build
+	/*UserClient.Db = db
+	productClient.Db = db
+	addressClient.Db = db
+	orderClient.Db = db
+	searchClient.Db = db
+	homeClient.Db = db*/
 
 }
 

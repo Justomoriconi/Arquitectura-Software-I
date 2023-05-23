@@ -16,16 +16,23 @@ func InsertData(db *gorm.DB) {
 	err := db.First(&userModel.User{}).Error
 
 	if err != nil {
-		db.Create(&userModel.User{UserID: 1, Name: "Augusto", LastName: "Bruno", UserName: "augustob", Email: "abcdefg@gmail.com", Pwd: "hola123"})
+		db.Create(&userModel.User{Name: "Augusto", LastName: "Bruno", UserName: "augustob", Email: "abcdefg@gmail.com", Pwd: "hola123"})
+
 	}
 	//Inserting Hotels
 
 	err = db.First(&hotelModel.Hotel{}).Error
 
 	if err != nil {
-		db.Create(&hotelModel.Hotel{HotelID: 1, Name: "hotel1", Rooms: 4})
-		db.Create(&hotelModel.Hotel{HotelID: 2, Name: "hotel2", Rooms: 3})
-		db.Create(&hotelModel.Hotel{HotelID: 3, Name: "hotel3", Rooms: 2})
+		db.Create(&hotelModel.Hotel{Name: "hotel1", Rooms: 4})
+		db.Create(&hotelModel.Hotel{Name: "hotel2", Rooms: 3})
+		db.Create(&hotelModel.Hotel{Name: "hotel3", Rooms: 2})
+		db.Create(&hotelModel.Hotel{Name: "hotel4", Rooms: 1})
+		db.Create(&hotelModel.Hotel{Name: "hotel5", Rooms: 3})
+		db.Create(&hotelModel.Hotel{Name: "hotel6", Rooms: 2})
+		db.Create(&hotelModel.Hotel{Name: "hotel7", Rooms: 5})
+		db.Create(&hotelModel.Hotel{Name: "hotel8", Rooms: 7})
+		db.Create(&hotelModel.Hotel{Name: "hotel9", Rooms: 4})
 
 	}
 
@@ -33,12 +40,10 @@ func InsertData(db *gorm.DB) {
 	err = db.First(&bookingModel.Booking{}).Error
 
 	if err != nil {
-		db.Create(&bookingModel.Booking{UserID: 1, HotelID: 1})
+		db.Create(&bookingModel.Booking{UserID: 1, HotelID: 0})
 		db.Create(&bookingModel.Booking{UserID: 1, HotelID: 2})
 
 	}
-
-	//manage errors...
 
 	log.Info("Data inserted")
 }
