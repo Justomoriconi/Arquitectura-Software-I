@@ -1,10 +1,11 @@
 package Model
 
 type User struct {
-	UserID   int
-	Name     string
-	LastName string
-	UserName string
-	Email    string
-	Pwd      string
+	UserID   int    `gorm:"primary_key"`
+	Name     string `gorm:"type:varchar(255);not null"`
+	LastName string `gorm:"type:varchar(255);not null"`
+	UserName string `gorm:"type:varchar(255);not null"`
+	Email    string `gorm:"type:varchar(255);not null"`
+	Pwd      string `gorm:"type:varchar(255);not null"`
 }
+type Users []User
