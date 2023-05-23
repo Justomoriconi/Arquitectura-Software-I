@@ -1,5 +1,6 @@
 package main
 
+<<<<<<< Updated upstream
 import (
 	"fmt"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -33,3 +34,10 @@ func main() {
 	fmt.Println("Database created successfully!")
 }
 }
+=======
+import "Backend/Database"
+
+func main() {
+	Database.StartDbEngine()
+}
+>>>>>>> Stashed changes
