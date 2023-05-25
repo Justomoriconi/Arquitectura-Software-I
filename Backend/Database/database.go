@@ -1,13 +1,14 @@
 package Database
 
 import (
+	bookingclient "Backend/Clients/Booking"
+	hotelClient "Backend/Clients/Hotel"
+	userClient "Backend/Clients/User"
 	data "Backend/Database/data"
-	//bookingclient "Backend/Clients/Booking"
 	bookingModel "Backend/Model/Booking"
-	//hotelClient "Backend/Clients/Hotel"
 	hotelModel "Backend/Model/Hotel"
 	userModel "Backend/Model/User"
-	//UserClient "Backend/Clients/User"
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	log "github.com/sirupsen/logrus"
@@ -39,12 +40,9 @@ func init() {
 	}
 
 	// We need to add all CLients that we build
-	/*UserClient.Db = db
-	productClient.Db = db
-	addressClient.Db = db
-	orderClient.Db = db
-	searchClient.Db = db
-	homeClient.Db = db*/
+	userClient.Db = db
+	hotelClient.Db = db
+	bookingclient.Db = db
 
 }
 
@@ -55,4 +53,16 @@ func StartDbEngine() {
 
 	log.Info("Finishing Migration Database Tables")
 	data.InsertData(db)
+}
+func Getbookingsdates(a, b string) {
+
+	bookings, err := bookingclient.BookingsBetween(a, b)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	for i := 0; i < len(bookings); i++ {
+		fmt.Println(bookings[i].Day, bookings[i].UserID, bookings[i].HotelID, bookings[i].BookingID)
+	}
+
 }
