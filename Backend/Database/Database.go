@@ -2,13 +2,15 @@ package Database
 
 import (
 	bookingclient "Backend/Clients/Booking"
+
 	hotelClient "Backend/Clients/Hotel"
+
 	userClient "Backend/Clients/User"
 	data "Backend/Database/data"
 	bookingModel "Backend/Model/Booking"
 	hotelModel "Backend/Model/Hotel"
+
 	userModel "Backend/Model/User"
-	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	log "github.com/sirupsen/logrus"
@@ -43,7 +45,6 @@ func init() {
 	userClient.Db = db
 	hotelClient.Db = db
 	bookingclient.Db = db
-
 }
 
 func StartDbEngine() {
@@ -53,16 +54,22 @@ func StartDbEngine() {
 
 	log.Info("Finishing Migration Database Tables")
 	data.InsertData(db)
+
 }
-func Getbookingsdates(a, b string) {
+func DbEngine() *gorm.DB { return db }
+func GetAvailableHotels(checkIn string, checkOut string) (hotelModel.Hotels, error) {
+	var hotels hotelModel.Hotels
 
-	bookings, err := bookingclient.BookingsBetween(a, b)
+	err := db.
+		Select("DISTINCT(hotels.hotel_id), hotels.name").
+		Table("hotels").
+		Joins("JOIN bookings ON bookings.hotel_id = hotels.hotel_id").
+		Where("hotels.rooms > (SELECT COUNT(*) FROM bookings WHERE bookings.hotel_id = hotels.hotel_id AND ? < bookings.checkout AND ? > bookings.checkin)", checkOut, checkIn).
+		Scan(&hotels).Error
+
 	if err != nil {
-		log.Println(err)
-		return
-	}
-	for i := 0; i < len(bookings); i++ {
-		fmt.Println(bookings[i].Day, bookings[i].UserID, bookings[i].HotelID, bookings[i].BookingID)
+		return nil, err
 	}
 
+	return hotels, nil
 }

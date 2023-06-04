@@ -25,15 +25,15 @@ func InsertData(db *gorm.DB) {
 	err = db.First(&hotelModel.Hotel{}).Error
 
 	if err != nil {
-		db.Create(&hotelModel.Hotel{Name: "hotel1", Rooms: 4})
-		db.Create(&hotelModel.Hotel{Name: "hotel2", Rooms: 3})
-		db.Create(&hotelModel.Hotel{Name: "hotel3", Rooms: 2})
-		db.Create(&hotelModel.Hotel{Name: "hotel4", Rooms: 1})
-		db.Create(&hotelModel.Hotel{Name: "hotel5", Rooms: 3})
-		db.Create(&hotelModel.Hotel{Name: "hotel6", Rooms: 2})
-		db.Create(&hotelModel.Hotel{Name: "hotel7", Rooms: 5})
-		db.Create(&hotelModel.Hotel{Name: "hotel8", Rooms: 7})
-		db.Create(&hotelModel.Hotel{Name: "hotel9", Rooms: 4})
+		db.Create(&hotelModel.Hotel{Name: "hotel1", Rooms: 1})
+		db.Create(&hotelModel.Hotel{Name: "hotel2", Rooms: 2})
+		db.Create(&hotelModel.Hotel{Name: "hotel3", Rooms: 3})
+		db.Create(&hotelModel.Hotel{Name: "hotel4", Rooms: 5})
+		db.Create(&hotelModel.Hotel{Name: "hotel5", Rooms: 6})
+		db.Create(&hotelModel.Hotel{Name: "hotel6", Rooms: 7})
+		db.Create(&hotelModel.Hotel{Name: "hotel7", Rooms: 4})
+		db.Create(&hotelModel.Hotel{Name: "hotel8", Rooms: 1})
+		db.Create(&hotelModel.Hotel{Name: "hotel9", Rooms: 3})
 
 	}
 
@@ -41,9 +41,10 @@ func InsertData(db *gorm.DB) {
 	err = db.First(&bookingModel.Booking{}).Error
 
 	if err != nil {
-		db.Create(&bookingModel.Booking{UserID: 1, HotelID: 0, Day: "2023-05-20"})
-		db.Create(&bookingModel.Booking{UserID: 1, HotelID: 2, Day: "2023-05-21"})
-		db.Create(&bookingModel.Booking{UserID: 2, HotelID: 2, Day: "2023-06-21"})
+		db.Create(&bookingModel.Booking{UserID: 1, HotelID: 1, Checkin: "2023-05-20", Checkout: "2023-05-25"})
+		db.Create(&bookingModel.Booking{UserID: 1, HotelID: 2, Checkin: "2023-05-21", Checkout: "2023-05-25"})
+		db.Create(&bookingModel.Booking{UserID: 2, HotelID: 2, Checkin: "2023-06-21", Checkout: "2023-07-25"})
+		db.Create(&bookingModel.Booking{UserID: 2, HotelID: 8, Checkin: "2020-06-21", Checkout: "2023-07-25"})
 
 	}
 

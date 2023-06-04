@@ -36,14 +36,3 @@ func GetmyBookings(id int) (model.Bookings, error) {
 
 	return booking, err
 }
-func BookingsBetween(startValue, endValue string) (model.Bookings, error) {
-	var booking model.Bookings
-	err := Db.Where("day BETWEEN ? AND ?", startValue, endValue).Find(&booking).Error
-
-	if err != nil {
-		log.Println(err)
-		return booking, err
-	}
-
-	return booking, err
-}
