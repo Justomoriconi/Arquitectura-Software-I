@@ -3,8 +3,9 @@ package Domain
 type User struct {
 	UserID   int    `json:"ID"`
 	Name     string `json:"Name"`
-	LastName string `gorm:"Lastname"`
-	UserName string `gorm:"Username"`
-	Email    string `gorm:"Email"`
-	Pwd      string `gorm:"Pasword"`
+	LastName string `json:"Lastname"`
+	UserName string `json:"Username"`
+	Email    string `json:"Email"`
+	Pwd      string `json:"Pasword"`
 }
+type Users []User

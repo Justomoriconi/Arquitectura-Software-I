@@ -36,3 +36,13 @@ func GetmyBookings(id int) (model.Bookings, error) {
 
 	return booking, err
 }
+/*
+func Reserve(userid ,hotelid , checkin ,checkout string)  error {
+
+	err := Db.Create(b).Error
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return err
+}

@@ -17,7 +17,7 @@ func InsertData(db *gorm.DB) {
 
 	if err != nil {
 		db.Create(&userModel.User{Name: "Augusto", LastName: "Bruno", UserName: "augustob", Email: "abcdefg@gmail.com", Pwd: "hola123"})
-		db.Create(&userModel.User{Name: "Justo", LastName: "Moriconi", UserName: "justom", Email: "abcdefg@gmail.com", Pwd: "hola123"})
+		db.Create(&userModel.User{Name: "Justo", LastName: "Moriconi", UserName: "justom", Email: "abcdefgh@gmail.com", Pwd: "hola123"})
 
 	}
 	//Inserting Hotels

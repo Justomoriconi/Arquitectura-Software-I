@@ -1,10 +1,11 @@
 package app
 
 import (
+	auth "Backend/Controllers/Auth"
 	AvailableordersController "Backend/Controllers/AvailableHotels"
-	hotelController "Backend/Controllers/Hotel"
-	//	userController "Backend/Controllers/User"
 	bookingController "Backend/Controllers/Bookings"
+	hotelController "Backend/Controllers/Hotel"
+	userController "Backend/Controllers/User"
 )
 
 // MapUrls maps the urls
@@ -17,13 +18,20 @@ func MapUrls() {
 		// Login Mapping
 		router.POST("/login", loginController.Login)
 	*/
+	router.POST("/Singup", userController.Singup)
+	router.POST("/login", userController.Login)
+	router.GET("/validate", auth.RequireAuth, userController.Validate)
+	// User Mapping
+	router.GET("/user/id/:id", auth.RequireAuth, userController.GetUserById)
+	router.GET("/user/username/:name", userController.GetUSerByusername)
 	// hotel Mapping
 	router.GET("/hotel/id/:id", hotelController.GetHotelById)
 	router.GET("/hotel/name/:name", hotelController.GetHotelByname)
 	// bookings Mapping
 	router.GET("/bookings/mybookings/:id", bookingController.GetmyBookings)
 	router.GET("/bookings/id/:id", bookingController.GetBookingsById)
-	// available Mapping
+	//	router.GET("/reserve", auth.RequireAuth, bookingController.Reserve)
+	// availablehotels Mapping
 
 	router.GET("/availablehotels/:id", AvailableordersController.GetAvailableHotels)
 }

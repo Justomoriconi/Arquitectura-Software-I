@@ -11,7 +11,7 @@ var Db *gorm.DB
 func GetUserById(id int) (model.User, error) { //standard get by id
 	var user model.User
 
-	err := Db.Where("UserID = ?", id).First(&user).Error
+	err := Db.Where("user_id = ?", id).First(&user).Error
 
 	if err != nil {
 		log.Println(err)
@@ -36,11 +36,10 @@ func GetUserByUsername(username string) (model.User, error) { //looking for user
 
 	return user, nil
 }
-
-func GetUserByEmail(email string) (model.User, error) { //looking for username to log in
+func GetUserByEmail(Email string) (model.User, error) { //looking for username to log in
 	var user model.User
 
-	err := Db.Where("user_email = ?", email).First(&user).Error
+	err := Db.Where("email = ?", Email).First(&user).Error
 
 	if err != nil { //is empty
 		log.Println(err)
@@ -49,4 +48,12 @@ func GetUserByEmail(email string) (model.User, error) { //looking for username t
 	log.Debug("User: ", user)
 
 	return user, nil
+}
+func PutUser(User *model.User) error {
+	err := Db.Create(User).Error
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return err
 }
