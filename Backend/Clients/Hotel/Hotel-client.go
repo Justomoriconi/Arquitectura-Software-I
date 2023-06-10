@@ -37,3 +37,15 @@ func GetHotelByName(name string) (model.Hotel, error) { //standard get by id
 
 	return hotel, nil
 }
+func GetHotels() (model.Hotels, error) {
+	var hotels model.Hotels
+	err := Db.Find(&hotels).Error
+	log.Debug("Hotels: ", hotels)
+
+	if err != nil {
+		log.Println(err)
+		return hotels, err
+	}
+
+	return hotels, nil
+}

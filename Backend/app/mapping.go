@@ -32,6 +32,6 @@ func MapUrls() {
 	router.GET("/bookings/id/:id", bookingController.GetBookingsById)
 	//	router.GET("/reserve", auth.RequireAuth, bookingController.Reserve)
 	// availablehotels Mapping
-
+	router.GET("/hotels/", hotelController.GetHotels)
 	router.GET("/availablehotels/:id", AvailableordersController.GetAvailableHotels)
 }

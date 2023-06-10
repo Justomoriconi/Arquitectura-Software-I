@@ -36,3 +36,15 @@ func GetHotelByname(c *gin.Context) {
 
 	c.JSON(http.StatusOK, hoteldomain)
 }
+func GetHotels(c *gin.Context) {
+	log.Debug("loading hotels: ")
+
+	hoteldomain, err := service.HotelService.GetHotels()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, hoteldomain)
+		return
+	}
+
+	c.JSON(http.StatusOK, hoteldomain)
+}

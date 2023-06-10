@@ -30,8 +30,9 @@ func (s *availableHotelsService) GetAvailableHotels(checkin, checkout string) (d
 	for _, hotel := range hotel {
 		var hotelDomain domain.Hotel
 		hotelDomain.Name = hotel.Name
-		hotelDomain.ID = hotel.HotelID
+		hotelDomain.HotelID = hotel.HotelID
 		hotelDomain.Rooms = hotel.Rooms
+		hotelDomain.Description = hotel.Description
 		hotelDomains = append(hotelDomains, hotelDomain)
 	}
 

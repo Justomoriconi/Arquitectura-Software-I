@@ -10,6 +10,7 @@ type hotelService struct{}
 type HotelServiceInterface interface {
 	GetHotelById(id int) (domain.Hotel, error)
 	GetHotelByname(string) (domain.Hotel, error)
+	GetHotels() (domain.Hotels, error)
 }
 
 var (
@@ -32,7 +33,7 @@ func (s *hotelService) GetHotelById(id int) (domain.Hotel, error) {
 		return HotelDomain, nil
 	}
 	HotelDomain.Name = hotel.Name
-	HotelDomain.ID = hotel.HotelID
+	HotelDomain.HotelID = hotel.HotelID
 	HotelDomain.Rooms = hotel.Rooms
 
 	return HotelDomain, nil
@@ -50,8 +51,27 @@ func (s *hotelService) GetHotelByname(name string) (domain.Hotel, error) {
 		return HotelDomain, nil
 	}
 	HotelDomain.Name = hotel.Name
-	HotelDomain.ID = hotel.HotelID
+	HotelDomain.HotelID = hotel.HotelID
 	HotelDomain.Rooms = hotel.Rooms
-
+	HotelDomain.Description = hotel.Description
 	return HotelDomain, nil
+}
+func (s *hotelService) GetHotels() (domain.Hotels, error) {
+
+	hotel, err := client.GetHotels()
+	var hotelDomains domain.Hotels
+
+	if err != nil {
+		return hotelDomains, err
+	}
+	for _, hotel := range hotel {
+		var hotelDomain domain.Hotel
+		hotelDomain.Name = hotel.Name
+		hotelDomain.HotelID = hotel.HotelID
+		hotelDomain.Rooms = hotel.Rooms
+		hotelDomain.Description = hotel.Description
+		hotelDomains = append(hotelDomains, hotelDomain)
+	}
+
+	return hotelDomains, nil
 }
