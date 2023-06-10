@@ -37,12 +37,13 @@ func GetmyBookings(c *gin.Context) {
 	c.JSON(http.StatusOK, bookingdomain)
 }
 
+/*
 func Reserve(c *gin.Context) {
 
 	user := c.Param("user")
 	//we are using auth as a midleware giving user so we now it exist
 
-	bookingdomain, err := service.BookingService.GetmyBookings(id)
+	bookingdomain, err := service.BookingService.GetmyBookings(user)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, bookingdomain)
@@ -51,3 +52,4 @@ func Reserve(c *gin.Context) {
 
 	c.JSON(http.StatusOK, bookingdomain)
 }
+*/

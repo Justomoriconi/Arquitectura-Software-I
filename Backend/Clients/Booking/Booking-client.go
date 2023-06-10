@@ -36,6 +36,7 @@ func GetmyBookings(id int) (model.Bookings, error) {
 
 	return booking, err
 }
+
 /*
 func Reserve(userid ,hotelid , checkin ,checkout string)  error {
 
@@ -45,4 +46,4 @@ func Reserve(userid ,hotelid , checkin ,checkout string)  error {
 		return err
 	}
 	return err
-}
+} */
