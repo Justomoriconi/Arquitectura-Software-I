@@ -6,6 +6,7 @@ import Signup from "./pages/Signup"
 import ButtonAppBar from './componets/ButtonAppBar';
 import Home from './pages/Home';
 import { Box } from '@mui/material';
+import Search from './pages/Search';
 
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="search" element={<Search />} />
       </Routes>
     </Box>
  

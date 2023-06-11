@@ -71,6 +71,7 @@ const Login=() =>{
                                 />
                             
                             <Button fullWidth type="submit" >Login</Button>
+                            <Typography variant="h7" alignItems='center'>Create an account </Typography>
                             <Link  to="/signup">
                                 <Typography variant="h7" alignItems='center'>Signup</Typography>
                             </Link>
