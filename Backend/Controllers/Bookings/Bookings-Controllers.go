@@ -1,11 +1,11 @@
 package Controllers
 
 import (
-	userModel "Backend/Model/User"
 	service "Backend/Services/Bookings"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"strconv"
 )
 
 func GetBookings(c *gin.Context) {
@@ -22,54 +22,26 @@ func GetBookings(c *gin.Context) {
 }
 
 /*
-	func GetmyBookings(c *gin.Context) {
-		log.Debug("loading my bookings: ")
-		user, _ := c.Get("user")
-		id := user.(model.User).UserID
-
-		bookingdomain, err := service.BookingService.GetmyBookings(id)
-
-		if err != nil {
-			c.JSON(http.StatusBadRequest, bookingdomain)
-			return
-		}
-
-		c.JSON(http.StatusOK, bookingdomain)
-	}
-*/
 func GetmyBookings(c *gin.Context) {
 	log.Debug("loading my bookings: ")
-	//id, _ := strconv.Atoi(c.Param("id"))
-	User, err := c.Get("User")
-	if err != true {
-		c.JSON(http.StatusBadRequest, gin.H{"not user": err})
-	}
-	c.JSON(http.StatusUnauthorized, gin.H{"User": User.(userModel.User).UserID})
-	/*
-		bookingdomain, err := service.BookingService.GetmyBookings(id)
+	user, _ := c.Get("user")
+	id := user.(model.User).UserID
 
-		if err != nil {
-			c.JSON(http.StatusBadRequest, bookingdomain)
-			return
-		}*/
+	bookingdomain, err := service.BookingService.GetmyBookings(id)
 
-	c.JSON(http.StatusOK, gin.H{"hola": err})
-}
-
-/*
-func Reserve(c *gin.Context) {
-	log.Debug("hotel to reserve: " + c.Param("hotelid"))
-	user, err := c.Get("user")
-	if err! = nil {
-		c.JSON(http.StatusBadRequest, gin.Context{})
+	if err != nil {
+		c.JSON(http.StatusBadRequest, bookingdomain)
 		return
 	}
 
-	id := user.(model.User).UserID
-	checkin := c.Query("checkin")
-	checkout := c.Query("checkout")
-	hotelid, _ := strconv.Atoi(c.Param("hotelid"))
-	bookingdomain, err := service.BookingService.Reserve(id, hotelid, checkin, checkout)
+	c.JSON(http.StatusOK, bookingdomain)
+}*/
+
+func GetmyBookings(c *gin.Context) {
+	log.Debug("loading my bookings: ")
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	bookingdomain, err := service.BookingService.GetmyBookings(id)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, bookingdomain)
@@ -78,4 +50,25 @@ func Reserve(c *gin.Context) {
 
 	c.JSON(http.StatusOK, bookingdomain)
 }
-*/
+
+func Reserve(c *gin.Context) {
+	var Body struct {
+		Userid   int
+		Hotelid  int
+		Checkin  string
+		Checkout string
+	}
+	if c.Bind(&Body) != nil {
+		c.JSON(http.StatusBadRequest, Body)
+		return
+	}
+
+	booking, err := service.BookingService.Reserve(Body.Userid, Body.Hotelid, Body.Checkin, Body.Checkout)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, booking)
+		return
+	}
+
+	c.JSON(http.StatusOK, booking)
+}

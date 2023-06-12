@@ -66,14 +66,14 @@ func (s *bookingService) GetmyBookings(id int) (domain.Bookings, error) {
 }
 
 func (s *bookingService) Reserve(id int, hotelid int, checkin string, checkout string) (domain.Booking, error) {
+	var BookingDomain domain.Booking
+
 	booking, err := client.Reserve(id, hotelid, checkin, checkout)
-	var bookingsDomain domain.Booking
 
 	if err != nil {
-		return bookingsDomain, err
+		return BookingDomain, err
 	}
 
-	var BookingDomain domain.Booking
 	BookingDomain.BookingID = booking.BookingID
 	BookingDomain.HotelID = booking.HotelID
 	BookingDomain.UserID = booking.UserID

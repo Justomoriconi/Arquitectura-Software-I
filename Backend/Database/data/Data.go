@@ -19,6 +19,9 @@ func InsertData(db *gorm.DB) {
 
 	if err != nil {
 		db.Create(&userModel.User{Admin: true, Name: "Admin", LastName: "Admin", UserName: "Admin", Email: "admin@gmail.com", Pwd: "$2a$10$SNYWKch/a88Z9Ql1OmJYzeUKt3CvmVsXBD2H1HEVT4gRRxl7iDp1K"})
+		db.Create(&userModel.User{Admin: false, Name: "example1", LastName: "example1", UserName: "example1", Email: "example1@gmail.com", Pwd: "$2a$10$SNYWKch/a88Z9Ql1OmJYzeUKt3CvmVsXBD2H1HEVT4gRRxl7iDp1K"})
+		db.Create(&userModel.User{Admin: false, Name: "example2", LastName: "example2", UserName: "example2", Email: "example2@gmail.com", Pwd: "$2a$10$SNYWKch/a88Z9Ql1OmJYzeUKt3CvmVsXBD2H1HEVT4gRRxl7iDp1K"})
+		db.Create(&userModel.User{Admin: false, Name: "example3", LastName: "example3", UserName: "example3", Email: "example3@gmail.com", Pwd: "$2a$10$SNYWKch/a88Z9Ql1OmJYzeUKt3CvmVsXBD2H1HEVT4gRRxl7iDp1K"})
 
 	}
 	//Inserting Hotels
