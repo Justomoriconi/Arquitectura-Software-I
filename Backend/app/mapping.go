@@ -18,7 +18,7 @@ func MapUrls() {
 		// Login Mapping
 		router.POST("/login", loginController.Login)
 	*/
-	router.POST("/Singup", userController.Singup)
+	router.PUT("/Singup", userController.Singup)
 	router.POST("/login", userController.Login)
 	router.POST("/logout", userController.Logout)
 	router.GET("/validate", auth.RequireAuth, userController.Validate)
