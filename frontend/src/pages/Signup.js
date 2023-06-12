@@ -30,8 +30,14 @@ const Signup = () =>{
     }
 
     const onSubmit = async () => {
+        
+        if (!loginData.name || !loginData.lastName || !loginData.email || !loginData.password) {
+            alert('Por favor, completa todos los campos');
+            return;
+          }
+        
         try {
-          const response = await axios.put('http://127.0.0.1:8080/Singup', loginData);
+          const response = await axios.post('http://127.0.0.1:8080/Singup', loginData);
           console.log(response.data); 
         } catch (error) {
           console.error(error);

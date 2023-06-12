@@ -46,11 +46,11 @@ const Home = () =>{
           console.log(hotel);
           return( <MediaCard 
                       key={hotel.id}
+                      image={require('../images/hotel.jpg').default}
                       title="Foto de hotel"
                       id={hotel.id}
                       name={hotel.Name} 
-                      description={hotel.Description
-                      }  
+                      description={hotel.Description}  
                   />
             );
         })}

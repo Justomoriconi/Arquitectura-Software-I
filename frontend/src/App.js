@@ -7,24 +7,25 @@ import ButtonAppBar from './componets/ButtonAppBar';
 import Home from './pages/Home';
 import { Box } from '@mui/material';
 import Search from './pages/Search';
+import { AuthProvider } from './AuthContext';
+import Reserves from './pages/Reserves';
 
 
 
 function App() {
   return (
-   
-    <Box > 
-      <ButtonAppBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
-        <Route path="search" element={<Search />} />
-      </Routes>
-    </Box>
- 
- 
- 
+    <AuthProvider>
+      <Box>
+        <ButtonAppBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/reserves" element={<Reserves />} />
+        </Routes>
+      </Box>
+    </AuthProvider>
   );
 }
 
