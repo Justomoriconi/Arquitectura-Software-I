@@ -46,10 +46,6 @@ const Home = () => {
               id={hotel.id}
               name={hotel.Name}
               description={hotel.Description}
-              sx={{
-                marginBottom: "2rem",
-                marginTop: index === 0 ? "2rem" : 0, // Margen superior solo para el primer elemento
-              }}
             />
           </Grid>
         ))}

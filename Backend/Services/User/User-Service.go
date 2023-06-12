@@ -12,7 +12,7 @@ type UserServiceInterface interface {
 	GetUserById(int) (domain.User, error)
 	GetUSerByEmail(email string) (domain.User, error)
 	GetUSerByusername(string) (domain.User, error)
-	Singup(Name string, LastName string, UserName string, Email string, Pwd string) error
+	Singup(Name string, LastName string, Email string, Pwd string) error
 }
 
 var (
@@ -78,13 +78,12 @@ func (s *userService) GetUSerByEmail(email string) (domain.User, error) {
 	return Userdomain, nil
 }
 
-func (s *userService) Singup(Name string, LastName string, UserName string, Email string, Pwd string) error {
+func (s *userService) Singup(Name string, LastName string, Email string, Pwd string) error {
 	var Usermodel model.User
 	Usermodel.Pwd = Pwd
 	Usermodel.Name = Name
 	Usermodel.LastName = LastName
 	Usermodel.Email = Email
-	Usermodel.UserName = UserName
 
 	err := client.PutUser(&Usermodel)
 

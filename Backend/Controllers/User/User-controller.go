@@ -46,10 +46,10 @@ func Singup(c *gin.Context) {
 	var Body struct {
 		Name     string
 		LastName string
-		UserName string
 		Email    string
 		Pwd      string
 	}
+
 	if c.Bind(&Body) != nil {
 		c.JSON(http.StatusBadRequest, Body)
 		return
@@ -63,7 +63,7 @@ func Singup(c *gin.Context) {
 		return
 	}
 	//create user
-	err = service.UserService.Singup(Body.Name, Body.LastName, Body.UserName, Body.Email, string(hash))
+	err = service.UserService.Singup(Body.Name, Body.LastName, Body.Email, string(hash))
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"err": "failed to create user"})
@@ -79,6 +79,7 @@ func Login(c *gin.Context) {
 		Email string
 		Pwd   string
 	}
+
 	if c.Bind(&Body) != nil {
 		c.JSON(http.StatusBadRequest, Body)
 		return
@@ -110,7 +111,7 @@ func Login(c *gin.Context) {
 	//send it
 	c.SetSameSite(http.SameSiteLaxMode)
 	c.SetCookie("Authorization", tokenString, 3600, "", "", false, true)
-	c.JSON(http.StatusOK, gin.H{})
+	c.JSON(http.StatusOK, gin.H{"success": true})
 }
 
 func Validate(c *gin.Context) {

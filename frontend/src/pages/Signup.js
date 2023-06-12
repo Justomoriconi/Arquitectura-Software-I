@@ -19,8 +19,8 @@ const Signup = () =>{
         name: '',
         lastName: '',
         email: '',
-        password: '',
-        username: '',
+        Pwd: '',
+      
       };
 
     const [loginData, setLoginData] = useState(initialState);
@@ -34,7 +34,7 @@ const Signup = () =>{
 
     const onSubmit = async () => {
         
-        if (!loginData.name || !loginData.lastName || !loginData.email || !loginData.password) {
+        if (!loginData.name || !loginData.lastName || !loginData.email || !loginData.Pwd) {
             alert('Por favor, completa todos los campos');
             return;
           }
@@ -43,12 +43,13 @@ const Signup = () =>{
           const response = await axios.post('http://127.0.0.1:8080/Singup', loginData);
           console.log(response.data); 
           setLoginData(initialState);
+          
         } catch (error) {
           console.error(error);
         }
       };
 
-
+      
 
 
     return  <Container maxWidth="xl">
@@ -104,13 +105,13 @@ const Signup = () =>{
                                     margin='normal'
                                     required
                                     fullWidth
-                                    name="password"
+                                    name="Pwd"
                                     label="Password"
-                                    type="password"
-                                    id="password"
+                                    type="text"
+                                    id="Pwd"
                                     autoComplete='current-password'
                                     sx={{mt: 1.5, mb: 1.5}}
-                                    value={loginData.password}
+                                    value={loginData.Pwd}
                                     onChange={handleOnChange}
                         />
                     

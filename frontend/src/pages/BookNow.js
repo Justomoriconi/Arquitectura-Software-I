@@ -37,72 +37,66 @@ const BookNow = () => {
   };
 
   return (
-    <Container maxWidth="md">
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-        }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardMedia
-                component="img"
-                height="200"
-                image="../images/hotel.jpg"
-                alt="Hotel Image"
+    <Container maxWidth="md" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+    <Grid container spacing={2} alignItems="center">
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardMedia
+            component="img"
+            height="200"
+            image="../images/hotel.jpg"
+            alt="Hotel Image"
+          />
+          <CardContent>
+            <Typography variant="h6" component="div">
+              {hotel && hotel.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {hotel && hotel.description}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardContent>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Typography variant="h6" component="div">
+                Select Dates
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Check In
+              </Typography>
+              <TextField
+                id="check-in-date"
+                type="date"
+                fullWidth
+                value={checkIn}
+                onChange={handleCheckInChange}
               />
-              <CardContent>
-                <Typography variant="h6" component="div">
-                  {hotel && hotel.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {hotel && hotel.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardContent>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Typography variant="h6" component="div">
-                    Select Dates
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Check In
-                  </Typography>
-                  <TextField
-                    id="check-in-date"
-                    type="date"
-                    fullWidth
-                    value={checkIn}
-                    onChange={handleCheckInChange}
-                  />
-                  <Typography variant="body2" color="text.secondary">
-                    Check Out
-                  </Typography>
-                  <TextField
-                    id="check-out-date"
-                    type="date"
-                    fullWidth
-                    value={checkOut}
-                    onChange={handleCheckOutChange}
-                  />
-                  <Button variant="contained" color="primary" fullWidth>
-                    Book Now
-                  </Button>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                Check Out
+              </Typography>
+              <TextField
+                id="check-out-date"
+                type="date"
+                fullWidth
+                value={checkOut}
+                onChange={handleCheckOutChange}
+              />
+              <Box sx={{ mt: 2 }}>
+                <Button variant="contained" color="primary" fullWidth>
+                  Book Now
+                </Button>
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  </Container>
+  
+
   );
 }
 
