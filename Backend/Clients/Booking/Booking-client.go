@@ -8,19 +8,17 @@ import (
 
 var Db *gorm.DB
 
-func GetBookingById(id int) (model.Booking, error) { //standard get by id
-	var booking model.Booking
-
-	err := Db.Where("booking_id = ?", id).First(&booking).Error
+func GetBookings() (model.Bookings, error) {
+	var bookings model.Bookings
+	err := Db.Find(&bookings).Error
+	log.Debug("bookings: ", bookings)
 
 	if err != nil {
 		log.Println(err)
-		return booking, err
+		return bookings, err
 	}
 
-	log.Debug("Booking: ", booking)
-
-	return booking, nil
+	return bookings, nil
 }
 
 func GetmyBookings(id int) (model.Bookings, error) {
@@ -37,13 +35,30 @@ func GetmyBookings(id int) (model.Bookings, error) {
 	return booking, err
 }
 
-/*
-func Reserve(userid ,hotelid , checkin ,checkout string)  error {
+func Reserve(userid int, hotelid int, checkin, checkout string) (model.Booking, error) {
 
-	err := Db.Create(b).Error
+	var bookings model.Booking
+
+	err := Db.
+		Table("hotels").
+		Select("hotels.hotel_id, hotels.name").
+		Joins("LEFT JOIN bookings ON bookings.hotel_id = hotels.hotel_id").
+		Where("hotels.hotel_id = ? AND hotel.rooms - 1 > (SELECT COUNT(*) FROM bookings WHERE bookings.hotel_id = hotels.hotel_id AND ? < bookings.checkout AND ? > bookings.checkin OR bookings.hotel_id IS NULL)", hotelid, checkout, checkin).
+		Scan(&bookings).Error
+
 	if err != nil {
-		log.Println(err)
-		return err
+		return bookings, err
 	}
-	return err
-} */
+	var nbookings model.Booking
+	nbookings.UserID = userid
+	nbookings.HotelID = hotelid
+	nbookings.Checkin = checkin
+	nbookings.Checkout = checkout
+
+	error := Db.Create(nbookings).Error
+	if error != nil {
+		log.Println(err)
+		return bookings, error
+	}
+	return nbookings, error
+}

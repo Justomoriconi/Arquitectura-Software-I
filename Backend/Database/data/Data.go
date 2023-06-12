@@ -14,10 +14,11 @@ func InsertData(db *gorm.DB) {
 
 	//Inserting users
 	err := db.First(&userModel.User{}).Error
+	//admin email:"admin@gmail.com"
+	//pwd :secret
 
 	if err != nil {
-		db.Create(&userModel.User{Name: "Augusto", LastName: "Bruno", UserName: "augustob", Email: "abcdefg@gmail.com", Pwd: "hola123"})
-		db.Create(&userModel.User{Name: "Justo", LastName: "Moriconi", UserName: "justom", Email: "abcdefgh@gmail.com", Pwd: "hola123"})
+		db.Create(&userModel.User{Admin: true, Name: "Admin", LastName: "Admin", UserName: "Admin", Email: "admin@gmail.com", Pwd: "$2a$10$SNYWKch/a88Z9Ql1OmJYzeUKt3CvmVsXBD2H1HEVT4gRRxl7iDp1K"})
 
 	}
 	//Inserting Hotels

@@ -7,5 +7,6 @@ type User struct {
 	UserName string `json:"Username"`
 	Email    string `json:"Email"`
 	Pwd      string `json:"Pasword"`
+	Admin    bool   `json:"Admin"`
 }
 type Users []User

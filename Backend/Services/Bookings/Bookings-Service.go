@@ -8,8 +8,9 @@ import (
 type bookingService struct{}
 
 type BookingServiceInterface interface {
-	GetBookinglById(id int) (domain.Booking, error)
 	GetmyBookings(id int) (domain.Bookings, error)
+	GetBookings() (domain.Bookings, error)
+	Reserve(id int, hotelid int, string2 string, string3 string) (domain.Booking, error)
 }
 
 var (
@@ -19,25 +20,26 @@ var (
 func init() {
 	BookingService = &bookingService{}
 }
-
-func (s *bookingService) GetBookinglById(id int) (domain.Booking, error) {
-
-	booking, err := client.GetBookingById(id)
-	var BookingDomain domain.Booking
+func (s *bookingService) GetBookings() (domain.Bookings, error) {
+	booking, err := client.GetBookings()
+	var bookingsDomains domain.Bookings
 
 	if err != nil {
-		return BookingDomain, err
+		return bookingsDomains, err
 	}
-	if booking.HotelID == 0 {
-		return BookingDomain, nil
-	}
-	BookingDomain.BookingID = booking.BookingID
-	BookingDomain.HotelID = booking.HotelID
-	BookingDomain.UserID = booking.UserID
-	BookingDomain.Checkin = booking.Checkin
-	BookingDomain.Checkout = booking.Checkout
 
-	return BookingDomain, nil
+	for _, booking := range booking {
+		var BookingDomain domain.Booking
+		BookingDomain.BookingID = booking.BookingID
+		BookingDomain.HotelID = booking.HotelID
+		BookingDomain.UserID = booking.UserID
+		BookingDomain.Checkin = booking.Checkin
+		BookingDomain.Checkout = booking.Checkout
+
+		bookingsDomains = append(bookingsDomains, BookingDomain)
+	}
+
+	return bookingsDomains, nil
 }
 
 func (s *bookingService) GetmyBookings(id int) (domain.Bookings, error) {
@@ -61,4 +63,22 @@ func (s *bookingService) GetmyBookings(id int) (domain.Bookings, error) {
 	}
 
 	return bookingsDomains, nil
+}
+
+func (s *bookingService) Reserve(id int, hotelid int, checkin string, checkout string) (domain.Booking, error) {
+	booking, err := client.Reserve(id, hotelid, checkin, checkout)
+	var bookingsDomain domain.Booking
+
+	if err != nil {
+		return bookingsDomain, err
+	}
+
+	var BookingDomain domain.Booking
+	BookingDomain.BookingID = booking.BookingID
+	BookingDomain.HotelID = booking.HotelID
+	BookingDomain.UserID = booking.UserID
+	BookingDomain.Checkin = booking.Checkin
+	BookingDomain.Checkout = booking.Checkout
+
+	return BookingDomain, nil
 }

@@ -23,19 +23,6 @@ func GetHotelById(c *gin.Context) {
 	c.JSON(http.StatusOK, hoteldomain)
 }
 
-func GetHotelByname(c *gin.Context) {
-	log.Debug("Hotel name to load: " + c.Param("name"))
-
-	name := c.Param("name")
-	hoteldomain, err := service.HotelService.GetHotelByname(name)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, hoteldomain)
-		return
-	}
-
-	c.JSON(http.StatusOK, hoteldomain)
-}
 func GetHotels(c *gin.Context) {
 	log.Debug("loading hotels: ")
 

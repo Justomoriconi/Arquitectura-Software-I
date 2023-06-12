@@ -116,3 +116,22 @@ func Login(c *gin.Context) {
 func Validate(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"mesage": "im loged in"})
 }
+
+func Logout(c *gin.Context) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+
+		"exp": time.Now(),
+	})
+
+	tokenString, err := token.SignedString([]byte("ajfgnaigingeiuaw"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"err": "cannot generate token"})
+		return
+	}
+	//send it
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", tokenString, 0, "", "", false, true)
+
+	c.JSON(http.StatusOK, gin.H{"message": "Logout successful"})
+
+}

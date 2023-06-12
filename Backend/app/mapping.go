@@ -20,17 +20,19 @@ func MapUrls() {
 	*/
 	router.POST("/Singup", userController.Singup)
 	router.POST("/login", userController.Login)
+	router.POST("/logout", userController.Logout)
 	router.GET("/validate", auth.RequireAuth, userController.Validate)
 	// User Mapping
 	router.GET("/user/id/:id", auth.RequireAuth, userController.GetUserById)
 	router.GET("/user/username/:name", userController.GetUSerByusername)
 	// hotel Mapping
 	router.GET("/hotel/id/:id", hotelController.GetHotelById)
-	router.GET("/hotel/name/:name", hotelController.GetHotelByname)
+
 	// bookings Mapping
 	router.GET("/bookings/mybookings/:id", bookingController.GetmyBookings)
-	router.GET("/bookings/id/:id", bookingController.GetBookingsById)
-	//	router.GET("/reserve", auth.RequireAuth, bookingController.Reserve)
+	router.GET("/bookings/bookings/", auth.RequireAdmin, bookingController.GetBookings)
+	//router.GET("/bookings/id/:id", bookingController.GetBookingsById)
+	//router.GET("/reserve/:id", auth.RequireAuth, bookingController.Reserve)
 	// availablehotels Mapping
 	router.GET("/hotels/", hotelController.GetHotels)
 	router.GET("/availablehotels/:id", AvailableordersController.GetAvailableHotels)
