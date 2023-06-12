@@ -7,14 +7,13 @@ import ButtonAppBar from './componets/ButtonAppBar';
 import Home from './pages/Home';
 import { Box } from '@mui/material';
 import BookNow from './pages/BookNow';
-import { AuthProvider } from './AuthContext';
 import Reserves from './pages/Reserves';
 
 
 
 function App() {
   return (
-    <AuthProvider>
+   
       <Box>
         <ButtonAppBar />
         <Routes>
@@ -25,7 +24,7 @@ function App() {
           <Route path="/reserves" element={<Reserves />} />
         </Routes>
       </Box>
-    </AuthProvider>
+   
   );
 }
 

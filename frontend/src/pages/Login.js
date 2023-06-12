@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Container, Grid, Paper, Typography, TextField, Button } from '@mui/material';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -34,9 +35,7 @@ const Login = () => {
       console.log(data); // Imprimir la respuesta del backend
       console.log(password, email);
       if (data.success) {
-        // Inicio de sesión exitoso
-        // Redirigir al usuario a otra página
-        
+        navigate("/")
         console.log('Inicio de sesión ');
       } else {
         // Inicio de sesión fallido
@@ -48,20 +47,40 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={handleEmailChange} required />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="text" value={password} onChange={handlePasswordChange} required />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <Container maxWidth="xs">
+      <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
+        <Grid item xs={12}>
+          <Paper elevation={3} sx={{ padding: '2rem' }}>
+            <Typography variant="h4" align="center" gutterBottom>
+              Login
+            </Typography>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                label="Email"
+                type="email"
+                fullWidth
+                margin="normal"
+                value={email}
+                onChange={handleEmailChange}
+                required
+              />
+              <TextField
+                label="Password"
+                type="password"
+                fullWidth
+                margin="normal"
+                value={password}
+                onChange={handlePasswordChange}
+                required
+              />
+              <Button type="submit" variant="contained" color="primary" fullWidth>
+                Login
+              </Button>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
