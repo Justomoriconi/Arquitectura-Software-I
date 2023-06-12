@@ -9,7 +9,7 @@ const Login = () => {
     password: '',
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate(); // Usamos useNavigate en lugar de useHistory
+  const navigate = useNavigate(); 
 
   const handleOnChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -22,7 +22,7 @@ const Login = () => {
 
       if (response.data.success) {
         setIsLoggedIn(true);
-        navigate('/home'); // Utilizamos navigate en lugar de history.push
+        navigate('/home'); 
       } else {
         console.log('Inicio de sesión fallido');
       }

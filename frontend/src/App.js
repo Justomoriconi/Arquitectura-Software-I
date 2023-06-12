@@ -6,7 +6,7 @@ import Signup from "./pages/Signup"
 import ButtonAppBar from './componets/ButtonAppBar';
 import Home from './pages/Home';
 import { Box } from '@mui/material';
-import Search from './pages/Search';
+import BookNow from './pages/BookNow';
 import { AuthProvider } from './AuthContext';
 import Reserves from './pages/Reserves';
 
@@ -21,7 +21,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/hotel/id/:hotelId" element={<BookNow />} />
           <Route path="/reserves" element={<Reserves />} />
         </Routes>
       </Box>

@@ -14,11 +14,6 @@ export default function ButtonAppBar() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   const handleLogout = () => {
-    // Lógica para cerrar sesión del usuario
-    // Por ejemplo, podrías realizar una solicitud al backend para invalidar el token de sesión
-    // y luego establecer el estado de inicio de sesión en falso
-    
-    // Ejemplo de solicitud axios al backend para cerrar sesión
     axios.post('/logout')
       .then(response => {
         setIsLoggedIn(false);

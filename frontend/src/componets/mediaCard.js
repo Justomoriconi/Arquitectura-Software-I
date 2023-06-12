@@ -1,17 +1,17 @@
 import React from 'react';
-//import { Container, Grid } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-//import { TextField } from '@mui/material';
+import { Link } from 'react-router-dom';
+
 
 
 export default function MediaCard(props) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 1000 }}>
       <CardMedia
         component="img"
         image={require('../images/hotel.jpg').default}
@@ -26,8 +26,9 @@ export default function MediaCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" >Book now</Button>
-
+        <Link to={`/hotel/id/${props.id}`}>
+          <Button size="small" >Book now</Button>
+        </Link>
       </CardActions>
     </Card>
   );

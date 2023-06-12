@@ -15,13 +15,16 @@ const Signup = () =>{
 
 
     
-    const [loginData, setLoginData] = useState({
-        name:'',
-        lastName:'',
+    const initialState = {
+        name: '',
+        lastName: '',
         email: '',
         password: '',
-        username:'',
-    });
+        username: '',
+      };
+
+    const [loginData, setLoginData] = useState(initialState);
+
 
     
 
@@ -39,6 +42,7 @@ const Signup = () =>{
         try {
           const response = await axios.post('http://127.0.0.1:8080/Singup', loginData);
           console.log(response.data); 
+          setLoginData(initialState);
         } catch (error) {
           console.error(error);
         }
