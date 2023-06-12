@@ -13,17 +13,20 @@ const Login=() =>{
         password: '',
     });
 
-    const {email, password} = loginData
+    
 
     const handleOnChange = (e) =>{
-        console.log([e.target.name], e.target.value)
         setLoginData({...loginData, [e.target.name] : e.target.value })
     }
 
-    const handleSubmit = (email, password) => {
+   /* const handleSubmit = (email, password) => {
         alert('datos formulariol')
-    }
+    }*/
 
+
+    const onSubmit = () =>{
+        console.log(loginData)
+    }
 
     
   
@@ -42,7 +45,7 @@ const Login=() =>{
                 <Grid item>
                     <Paper sx={{padding:"1.2em", borderRadius:"0.5em"}}>
                         <Typography variant="h4">Login</Typography>
-                        <Box component="form" /*</Paper>onSubmit={handleSubmit}*/>
+                        <Box component="form">
                             
                                 <TextField  variant='outlined'
                                             margin='normal'
@@ -53,7 +56,7 @@ const Login=() =>{
                                             name="email"
                                             autoFocus
                                             sx={{mt: 2, mb: 1.5}}
-                                            value={email}
+                                            value={loginData.email}
                                             onChange={handleOnChange}
                                 />
                                 <TextField  variant='outlined'
@@ -66,11 +69,11 @@ const Login=() =>{
                                             id="password"
                                             autoComplete='current-password'
                                             sx={{mt: 1.5, mb: 1.5}}
-                                            value={password}
+                                            value={loginData.password}
                                             onChange={handleOnChange}
                                 />
                             
-                            <Button fullWidth type="submit" >Login</Button>
+                            <Button fullWidth onClick={()=> onSubmit()} >Login</Button>
                             <Typography variant="h7" alignItems='center'>Create an account </Typography>
                             <Link  to="/signup">
                                 <Typography variant="h7" alignItems='center'>Signup</Typography>

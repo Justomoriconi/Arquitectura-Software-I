@@ -2,11 +2,45 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { Container, Grid, Paper, Button, Typography, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+
 
 
 
 
 const Signup = () =>{
+
+
+
+
+    
+    const [loginData, setLoginData] = useState({
+        name:'',
+        lastName:'',
+        email: '',
+        password: '',
+        username:'',
+    });
+
+    
+
+    const handleOnChange = (e) =>{
+        setLoginData({...loginData, [e.target.name] : e.target.value })
+    }
+
+    const onSubmit = async () => {
+        try {
+          const response = await axios.put('http://127.0.0.1:8080/Singup', loginData);
+          console.log(response.data); 
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+
+
+
     return  <Container maxWidth="xl">
     <Grid 
         container
@@ -27,9 +61,10 @@ const Signup = () =>{
                                     fullWidth
                                     name="name"
                                     label="Name"
-                                    type="name"
                                     id="name"
                                     sx={{mt: 1.5, mb: 1.5}}
+                                    value={loginData.name}
+                                    onChange={handleOnChange}
                         />
                           <TextField  variant='outlined'
                                     margin='normal'
@@ -37,10 +72,11 @@ const Signup = () =>{
                                     fullWidth
                                     name="lastName"
                                     label="Last Name"
-                                    type="lastName"
                                     id="lastName"
                                     autoComplete='current-password'
                                     sx={{mt: 1.5, mb: 1.5}}
+                                    value={loginData.lastName}
+                                    onChange={handleOnChange}
                         />
                           <TextField  variant='outlined'
                                     margin='normal'
@@ -51,6 +87,8 @@ const Signup = () =>{
                                     name="email"
                                     autoFocus
                                     sx={{mt: 2, mb: 1.5}}
+                                    value={loginData.email}
+                                    onChange={handleOnChange}
                         />
                         <TextField  variant='outlined'
                                     margin='normal'
@@ -62,9 +100,11 @@ const Signup = () =>{
                                     id="password"
                                     autoComplete='current-password'
                                     sx={{mt: 1.5, mb: 1.5}}
+                                    value={loginData.password}
+                                    onChange={handleOnChange}
                         />
                     
-                    <Button fullWidth type="submit" >Login</Button>
+                    <Button fullWidth onClick={()=> onSubmit()} >Login</Button>
                     <Typography variant="h7" alignItems='center'>Already have an account ? </Typography>
                     <Link  to="/login">
                         <Typography variant="h7" alignItems='center'>Login</Typography>
