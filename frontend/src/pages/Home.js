@@ -1,58 +1,176 @@
-import React, { useState, useEffect } from "react";
-import MediaCard from "../componets/mediaCard";
-import { Container, Grid} from '@mui/material';
-
-
-
-
-
-
-
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Container, Grid, Card, CardContent, Typography, TextField, Button, Box } from '@mui/material';
 
 const Home = () => {
-  const url = "http://127.0.0.1:8080/hotels/";
-  const [hotels, setHotels] = useState([]);
+  const navigate = useNavigate();
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [availableHotels, setAvailableHotels] = useState([]);
 
-  const fetchApi = async () => {
-      try {
-          const response = await fetch(url);
-          const responseJSON = await response.json();
-          console.log(responseJSON);
-          setHotels(responseJSON);
-      } catch (error) {
-          console.error(error);
-      }
-  }
+  const [expandedHotelId, setExpandedHotelId] = useState(null);
 
-  useEffect(() => {
-      fetchApi();
-  }, []);
+  const handleCheckInChange = (event) => {
+    setCheckIn(event.target.value);
+  };
+
+  const handleCheckOutChange = (event) => {
+    setCheckOut(event.target.value);
+  };
+
+  const handleSearch = () => {
+    fetch('http://localhost:8080/availablehotels/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "Checkin": checkIn,
+        "Checkout": checkOut,
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Procesar la respuesta del servidor
+        setAvailableHotels(data);
+      })
+      .catch(error => {
+        // Manejar el error de la solicitud
+        console.error(error);
+      });
+  };
+
+  const handleBookNow = (hotelId) => {
+    const reservationData = {
+      "Hotelid": hotelId.toString(),
+      "Checkin": checkIn,
+      "CheckOut": checkOut
+    };
+
+    fetch('http://localhost:8080/reserve/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(reservationData)
+    })
+      .then(response => {
+        if (response.status === 200) {
+          console.log('Hotel reserved successfully!');
+          setCheckIn("");
+          setCheckOut("");
+          navigate("/reserves");
+
+        } else {
+
+          console.log('Reservation failed. Please try again.');
+        }
+      })
+      .then(data => {
+        // Procesar la respuesta del servidor
+        console.log(data);
+      })
+      .catch(error => {
+        // Manejar el error de la solicitud
+        console.error(error);
+        console.log('An error occurred. Please try again.');
+      });
+  };
+
 
   return (
-    <Container maxWidth="x2" sx={{ marginBottom: 4 }}>
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ minHeight: "75vh" }}
-      >
-        {hotels && hotels.map((hotel, index) => (
-          <Grid item key={hotel.id} sx={{ marginTop: index !== 0 ? 4 : 2 }}>
-            <MediaCard
-              image={require('../images/hotel.jpg').default}
-              title="Foto de hotel"
-              id={hotel.id}
-              name={hotel.Name}
-              description={hotel.Description}
-            />
-          </Grid>
-        ))}
+    <Container maxWidth="md" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardContent>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '500px' }}>
+              <Typography variant="h6" component="div">
+                Search Available Hotels
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Check In
+              </Typography>
+              <TextField
+                id="check-in-date"
+                type="date"
+                fullWidth
+                value={checkIn}
+                onChange={handleCheckInChange}
+              />
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                Check Out
+              </Typography>
+              <TextField
+                id="check-out-date"
+                type="date"
+                fullWidth
+                value={checkOut}
+                onChange={handleCheckOutChange}
+              />
+              <Box sx={{ mt: 2 }}>
+                <Button onClick={handleSearch} variant="contained" color="primary" fullWidth>
+                  Search
+                </Button>
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
       </Grid>
+      {availableHotels.length > 0 && (
+        <Grid item xs={12} sm={6}>
+          <Card>
+            <CardContent>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '500px' }}>
+                <Typography variant="h6" component="div">
+                  Available Hotels
+                </Typography>
+                {availableHotels.map(hotel => (
+                  <Box
+                    key={hotel.id}
+                    sx={{
+                      marginTop: '10px',
+                      backgroundColor: '#f5f5f5',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    <Typography variant="h6" component="div">
+                      {hotel.Name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Rooms: {hotel.rooms}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Description: {expandedHotelId === hotel.id ? hotel.Description : `${hotel.Description.slice(0, 100)}...`}
+                    </Typography>
+                    {hotel.Description.length > 100 && (
+                      <Button
+                        variant="text"
+                        color="primary"
+                        sx={{ marginTop: '10px' }}
+                        onClick={() => setExpandedHotelId(hotel.id)}
+                      >
+                        {expandedHotelId === hotel.id ? 'Show Less' : 'Read More'}
+                      </Button>
+                    )}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{ marginTop: '10px' }}
+                      onClick={() => handleBookNow(hotel.id)}
+                    >
+                      Book Now
+                    </Button>
+                  </Box>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      )}
     </Container>
   );
-  
 }
 
 export default Home;

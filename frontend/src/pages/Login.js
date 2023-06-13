@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Grid, Paper, Typography, TextField, Button } from '@mui/material';
+import { AuthContext } from '../AuthProvider';
+
+
 
 const Login = () => {
+  
+  
   const navigate = useNavigate();
+  const {login} = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,6 +27,7 @@ const Login = () => {
     try {
       const response = await fetch('http://localhost:8080/login', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -32,19 +39,26 @@ const Login = () => {
 
       const data = await response.json();
 
-      console.log(data); // Imprimir la respuesta del backend
-      console.log(password, email);
+   
       if (data.success) {
+        login();
         navigate("/")
         console.log('Inicio de sesión ');
+
+
+
+     
       } else {
-        // Inicio de sesión fallido
         console.log('Inicio de sesión fallido');
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+
+
+  
 
   return (
     <Container maxWidth="xs">

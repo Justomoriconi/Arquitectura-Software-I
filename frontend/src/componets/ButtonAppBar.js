@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider';
 
 export default function ButtonAppBar() {
+  const navigate = useNavigate();
+  const { isLoggedIn, logout } = useContext(AuthContext);
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <AppBar position="static">
@@ -16,18 +23,26 @@ export default function ButtonAppBar() {
             Home
           </Typography>
         </Link>
-        <Box>
-          {false? (
-            <Typography >
-              Cerrar sesión
-            </Typography>
+        <Box >
+          {isLoggedIn ? (
+            
+           <Box>
+                <Typography >
+                  My Reserves
+                </Typography>
+
+                <Typography onClick={handleLogout} variant="body1">
+                  Cerrar sesión
+                </Typography>
+              </Box>
+              
           ) : (
             <>
               <Link to="/login">
-                <Typography>Login</Typography>
+                <Typography variant="body1">Login</Typography>
               </Link>
               <Link to="/signup">
-                <Typography>Signup</Typography>
+                <Typography variant="body1">Signup</Typography>
               </Link>
             </>
           )}
@@ -35,4 +50,7 @@ export default function ButtonAppBar() {
       </Toolbar>
     </AppBar>
   );
+  
+  
+
 }
