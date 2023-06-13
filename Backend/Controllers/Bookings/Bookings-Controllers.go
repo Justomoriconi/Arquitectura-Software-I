@@ -3,7 +3,7 @@ package Controllers
 import (
 	Client "Backend/Clients/User"
 	service "Backend/Services/Bookings"
-	
+
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -43,17 +43,52 @@ func GetmyBookings(c *gin.Context) {
 }*/
 
 func GetmyBookings(c *gin.Context) {
-	log.Debug("loading my bookings: ")
-	id, _ := strconv.Atoi(c.Param("id"))
-
-	bookingdomain, err := service.BookingService.GetmyBookings(id)
-
+	tokenString, err := c.Cookie("Authorization")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, bookingdomain)
+		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
 
-	c.JSON(http.StatusOK, bookingdomain)
+	//validate it
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+
+		return []byte("ajfgnaigingeiuaw"), nil
+	})
+	if err != nil || token == nil || !token.Valid {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		fmt.Print(claims["exp"].(float64))
+		//check expiration
+
+		if float64(time.Now().Unix()) > claims["exp"].(float64) {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
+
+		//find user
+
+		User, err := Client.GetUserById(int(claims["sub"].(float64)))
+
+		if err != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
+
+		bookingdomain, err := service.BookingService.GetmyBookings(User.UserID)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, bookingdomain)
+			return
+		}
+
+		c.JSON(http.StatusOK, bookingdomain)
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{})
+	}
 }
 
 func Reserve(c *gin.Context) {
@@ -112,8 +147,8 @@ func Reserve(c *gin.Context) {
 		}
 
 		c.JSON(http.StatusOK, booking)
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{})
 	}
-
-	c.JSON(http.StatusBadRequest, gin.H{})
 }
 

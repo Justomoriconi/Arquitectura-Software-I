@@ -176,6 +176,7 @@ func Myuser(c *gin.Context) {
 		}
 		//atach to request
 		c.JSON(http.StatusOK, gin.H{"userid": User.UserID})
+	} else {
+		c.JSON(http.StatusUnauthorized, gin.H{})
 	}
-	c.JSON(http.StatusUnauthorized, gin.H{})
 }
