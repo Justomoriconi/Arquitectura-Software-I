@@ -17,7 +17,7 @@ func init() {
 	config.AllowMethods = []string{"GET", "POST", "OPTIONS"}
 	config.AllowHeaders = []string{"Content-Type", "Authorization"}
 	config.AllowCredentials = true
-	router.Use(cors.Default())
+	router.Use(cors.New(config))
 }
 
 func StartRoute() {
