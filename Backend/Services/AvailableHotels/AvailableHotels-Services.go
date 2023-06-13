@@ -41,21 +41,19 @@ func (s *availableHotelsService) GetAvailableHotels(checkin, checkout string) (d
 }*/
 
 func (s *availableHotelsService) GetAvailableHotels(Checkin, Checkout string) (domain.Hotels, error) {
-
-	hotel, err := client.GetAvailableHotels(Checkin, Checkout)
-	var hotelDomains domain.Hotels
-
+	hotels, err := client.GetAvailableHotels(Checkin, Checkout)
 	if err != nil {
-		return hotelDomains, err
+		return nil, err
 	}
-	for _, hotel := range hotel {
-		var hotelDomain domain.Hotel
-		hotelDomain.Name = hotel.Name
-		hotelDomain.HotelID = hotel.HotelID
-		hotelDomain.Rooms = hotel.Rooms
-		hotelDomain.Description = hotel.Description
+	var hotelDomains domain.Hotels
+	for _, hotel := range hotels {
+		hotelDomain := domain.Hotel{
+			Name:        hotel.Name,
+			HotelID:     hotel.HotelID,
+			Rooms:       hotel.Rooms,
+			Description: hotel.Description,
+		}
 		hotelDomains = append(hotelDomains, hotelDomain)
 	}
-
 	return hotelDomains, nil
 }

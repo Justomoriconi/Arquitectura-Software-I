@@ -132,7 +132,6 @@ func Logout(c *gin.Context) {
 	//send it
 	c.SetSameSite(http.SameSiteLaxMode)
 	c.SetCookie("Authorization", tokenString, 0, "", "", false, true)
-
 	c.JSON(http.StatusOK, gin.H{"message": "Logout successful"})
 
 }

@@ -9,7 +9,7 @@ import (
 func GetAvailableHotels(checkIn string, checkOut string) (model.Hotels, error) {
 	var hotels model.Hotels
 	db := Db.DbEngine()
-	err := db.Select("DISTINCT(hotels.hotel_id), hotels.name").
+	err := db.Select("DISTINCT(hotels.hotel_id), hotels.name,hotels.rooms, hotels.description").
 		Table("hotels").
 		Where(`
 			hotels.rooms > (

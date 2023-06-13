@@ -20,7 +20,7 @@ func MapUrls() {
 	*/
 	router.POST("/Singup", userController.Singup)
 	router.POST("/login", userController.Login)
-	router.POST("/logout", userController.Logout)
+	router.POST("/logout", auth.RequireAuth, userController.Logout)
 	router.GET("/validate", auth.RequireAuth, userController.Validate)
 	// User Mapping
 	router.GET("/user/id/:id", auth.RequireAuth, userController.GetUserById)
@@ -35,5 +35,5 @@ func MapUrls() {
 	router.POST("/reserve/", auth.RequireAuth, bookingController.Reserve)
 	// availablehotels Mapping
 	router.GET("/hotels/", hotelController.GetHotels)
-	router.POST("/availablehotels/", AvailableordersController.GetAvailableHotels)
+	router.POST("/availablehotels/", auth.RequireAuth, AvailableordersController.GetAvailableHotels)
 }
