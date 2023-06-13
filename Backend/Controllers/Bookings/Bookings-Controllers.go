@@ -1,11 +1,16 @@
 package Controllers
 
 import (
+	Client "Backend/Clients/User"
 	service "Backend/Services/Bookings"
+	
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 func GetBookings(c *gin.Context) {
@@ -52,24 +57,63 @@ func GetmyBookings(c *gin.Context) {
 }
 
 func Reserve(c *gin.Context) {
-	var Body struct {
-		Userid   string
-		Hotelid  string
-		Checkin  string
-		Checkout string
-	}
-	if c.Bind(&Body) != nil {
-		c.JSON(http.StatusBadRequest, Body)
-		return
-	}
-	id, _ := strconv.Atoi(Body.Userid)
-	hotelid, _ := strconv.Atoi(Body.Hotelid)
-	booking, err := service.BookingService.Reserve(id, hotelid, Body.Checkin, Body.Checkout)
-
+	//Get cookie
+	tokenString, err := c.Cookie("Authorization")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, booking)
+		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
 
-	c.JSON(http.StatusOK, booking)
+	//validate it
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+
+		return []byte("ajfgnaigingeiuaw"), nil
+	})
+	if err != nil || token == nil || !token.Valid {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		fmt.Print(claims["exp"].(float64))
+		//check expiration
+
+		if float64(time.Now().Unix()) > claims["exp"].(float64) {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
+
+		//find user
+
+		User, err := Client.GetUserById(int(claims["sub"].(float64)))
+
+		if err != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
+
+		var Body struct {
+			Hotelid  string
+			Checkin  string
+			Checkout string
+		}
+		if c.Bind(&Body) != nil {
+			c.JSON(http.StatusBadRequest, Body)
+			return
+		}
+
+		hotelid, _ := strconv.Atoi(Body.Hotelid)
+		booking, err := service.BookingService.Reserve(User.UserID, hotelid, Body.Checkin, Body.Checkout)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, booking)
+			return
+		}
+
+		c.JSON(http.StatusOK, booking)
+	}
+
+	c.JSON(http.StatusBadRequest, gin.H{})
 }
+

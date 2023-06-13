@@ -8,7 +8,7 @@ import (
 
 func GetAvailableHotels(c *gin.Context) {
 	// Retrieve check-in and check-out dates from the Body parameters
-
+	
 	var Body struct {
 		Checkin  string
 		Checkout string
