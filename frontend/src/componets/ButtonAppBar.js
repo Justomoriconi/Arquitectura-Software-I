@@ -27,9 +27,11 @@ export default function ButtonAppBar() {
           {isLoggedIn ? (
             
            <Box>
-                <Typography >
-                  My Reserves
-                </Typography>
+                <Link to="/reserves">
+                  <Typography >
+                    My Reserves
+                  </Typography>
+                </Link>
 
                 <Typography onClick={handleLogout} variant="body1">
                   Cerrar sesión
