@@ -39,7 +39,7 @@ func GetBookings() (model.Bookings, error) {
 func GetmyBookings(id int) (model.Bookings, error) {
 	var booking model.Bookings
 
-	err := Db.Where("booking_id = ?", id).Find(&booking).Error
+	err := Db.Where("user_id = ?", id).Find(&booking).Error
 	log.Debug("Bookings: ", booking)
 
 	if err != nil {
@@ -54,26 +54,16 @@ func Reserve(userid int, hotelid int, checkin, checkout string) (model.Booking, 
 
 	var booking model.Booking
 
-	err := Db.
-		Table("hotels").
-		Select("hotels.hotel_id, hotels.name").
-		Joins("LEFT JOIN bookings ON bookings.hotel_id = hotels.hotel_id").
-		Where("hotels.hotel_id = ? AND hotel.rooms - 1 > (SELECT COUNT(*) FROM bookings WHERE bookings.hotel_id = hotels.hotel_id AND ? < bookings.checkout AND ? > bookings.checkin OR bookings.hotel_id IS NULL)", hotelid, checkout, checkin).
-		Scan(&booking).Error
-
-	if err != nil {
-		return booking, err
-	}
-
 	booking.UserID = userid
 	booking.HotelID = hotelid
 	booking.Checkin = checkin
 	booking.Checkout = checkout
 
-	error := Db.Create(booking).Error
-	if error != nil {
+	err := Db.Create(&booking).Error
+
+	if err != nil {
 		log.Println(err)
-		return booking, error
+		return booking, err
 	}
-	return booking, error
+	return booking, err
 }

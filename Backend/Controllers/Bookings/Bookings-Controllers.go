@@ -53,8 +53,8 @@ func GetmyBookings(c *gin.Context) {
 
 func Reserve(c *gin.Context) {
 	var Body struct {
-		Userid   int
-		Hotelid  int
+		Userid   string
+		Hotelid  string
 		Checkin  string
 		Checkout string
 	}
@@ -62,8 +62,9 @@ func Reserve(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, Body)
 		return
 	}
-
-	booking, err := service.BookingService.Reserve(Body.Userid, Body.Hotelid, Body.Checkin, Body.Checkout)
+	id, _ := strconv.Atoi(Body.Userid)
+	hotelid, _ := strconv.Atoi(Body.Hotelid)
+	booking, err := service.BookingService.Reserve(id, hotelid, Body.Checkin, Body.Checkout)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, booking)

@@ -10,7 +10,8 @@ type bookingService struct{}
 type BookingServiceInterface interface {
 	GetmyBookings(id int) (domain.Bookings, error)
 	GetBookings() (domain.Bookings, error)
-	Reserve(id int, hotelid int, string2 string, string3 string) (domain.Booking, error)
+	GetBookingsbyid(id int) (domain.Booking, error)
+	Reserve(id, hotelid int, string2 string, string3 string) (domain.Booking, error)
 }
 
 var (
@@ -41,7 +42,24 @@ func (s *bookingService) GetBookings() (domain.Bookings, error) {
 
 	return bookingsDomains, nil
 }
+func (s *bookingService) GetBookingsbyid(id int) (domain.Booking, error) {
+	booking, err := client.GetBookingById(id)
+	var bookingsDomains domain.Booking
 
+	if err != nil {
+		return bookingsDomains, err
+	}
+
+	var BookingDomain domain.Booking
+
+	BookingDomain.BookingID = booking.BookingID
+	BookingDomain.HotelID = booking.HotelID
+	BookingDomain.UserID = booking.UserID
+	BookingDomain.Checkin = booking.Checkin
+	BookingDomain.Checkout = booking.Checkout
+
+	return BookingDomain, nil
+}
 func (s *bookingService) GetmyBookings(id int) (domain.Bookings, error) {
 
 	booking, err := client.GetmyBookings(id)
